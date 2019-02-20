@@ -1,3 +1,5 @@
+from __future__ import print_function
+from collections import OrderedDict
 import ROOT
 from math import sqrt
 from array import array
@@ -45,60 +47,7 @@ def getCanvas(title="c1"):
     return c1
 
 
-masses = [600, 1000, 2000, 3000, 4000]
-
-eff_pythia_0p55_LP = {}
-eff_herwig_0p55_LP = {}
-eff_pythia_0p55_LP[600] = [0.031679, 0.001749]
-eff_herwig_0p55_LP[600] = [0.044878, 0.002330]
-eff_pythia_0p55_LP[1000] = [0.037036, 0.001393]
-eff_herwig_0p55_LP[1000] = [0.061726, 0.002312]
-eff_pythia_0p55_LP[2000] = [0.043223, 0.001489]
-eff_herwig_0p55_LP[2000] = [0.061091, 0.001825]
-eff_pythia_0p55_LP[3000] = [0.047242, 0.001562]
-eff_herwig_0p55_LP[3000] = [0.067363, 0.001926]
-eff_pythia_0p55_LP[4000] = [0.051806, 0.001648]
-eff_herwig_0p55_LP[4000] = [0.072220, 0.002006]
-
-eff_pythia_0p55_HP = {}
-eff_herwig_0p55_HP = {}
-eff_pythia_0p55_HP[600] = [0.636140578768853, 0.0121795484382824]
-eff_herwig_0p55_HP[600] = [0.623293515358362, 0.0130500335760669]
-eff_pythia_0p55_HP[1000] = [0.668377433090024, 0.00916188452057783]
-eff_herwig_0p55_HP[1000] = [0.631332334754388, 0.00883674972089228]
-eff_pythia_0p55_HP[2000] = [0.61810980705643, 0.00846507283330511]
-eff_herwig_0p55_HP[2000] = [0.569080118694362, 0.0101955095170559]
-eff_pythia_0p55_HP[3000] = [0.568724634558058, 0.0079278759727812]
-eff_herwig_0p55_HP[3000] = [0.509392019562076, 0.0128948508846965]
-eff_pythia_0p55_HP[4000] = [0.551967348107837, 0.00774813442443334]
-eff_herwig_0p55_HP[4000] = [0.493785952702223, 0.00712976986163695]
-
-eff_pythia_0p35_LP = {}
-eff_herwig_0p35_LP = {}
-eff_pythia_0p35_LP[600] = [0.39908, 0.00876]
-eff_herwig_0p35_LP[600] = [0.43174, 0.01006]
-eff_pythia_0p35_LP[1000] = [0.48525, 0.00729]
-eff_herwig_0p35_LP[1000] = [0.50832, 0.00757]
-eff_pythia_0p35_LP[2000] = [0.51844, 0.00747]
-eff_herwig_0p35_LP[2000] = [0.52944, 0.00968]
-eff_pythia_0p35_LP[3000] = [0.51438, 0.00738]
-eff_herwig_0p35_LP[3000] = [0.52584, 0.01319]
-eff_pythia_0p35_LP[4000] = [0.52676, 0.00749]
-eff_herwig_0p35_LP[4000] = [0.53924, 0.00759]
-
-eff_pythia_0p35_HP = {}
-eff_herwig_0p35_HP = {}
-eff_pythia_0p35_HP[600] = [0.305405210362993, 0.00728908350417374]
-eff_herwig_0p35_HP[600] = [0.285836177474403, 0.00757879766404181]
-eff_pythia_0p35_HP[1000] = [0.274330900243309, 0.00492090256923448]
-eff_herwig_0p35_HP[1000] = [0.244075738372316, 0.00457434717902778]
-eff_pythia_0p35_HP[2000] = [0.214672431961048, 0.00408693364293497]
-eff_herwig_0p35_HP[2000] = [0.176557863501484, 0.00459715752180273]
-eff_pythia_0p35_HP[3000] = [0.183708652084905, 0.00366962114171593]
-eff_herwig_0p35_HP[3000] = [0.140268978548405, 0.00542730966131746]
-eff_pythia_0p35_HP[4000] = [0.163116250760803, 0.00339261272090088]
-eff_herwig_0p35_HP[4000] = [0.122150415453448, 0.00281053302104771]
-
+from eff_2016 import *
 
 c1 = getCanvas()
 c1.GetFrame().SetFillColor(21)
@@ -377,7 +326,7 @@ ROOT.gStyle.SetOptFit(0)
 gr_ratio_0p55_LP.Fit("linear")
 fit_ratio_0p55_LP = gr_ratio_0p55_LP.GetFunction("linear")
 fit_ratio_0p55_LP.SetLineColor(gr_ratio_0p55_LP.GetMarkerColor())
-print gr_ratio_0p55_LP.GetTitle(), "result at 200 GeV:", fit_ratio_0p55_LP.Eval(200)
+print(gr_ratio_0p55_LP.GetTitle(), "result at 200 GeV:", fit_ratio_0p55_LP.Eval(200))
 unc_fit_0p55_LP = fit_ratio_0p55_LP.IntegralError(200-10, 200+10)/fit_ratio_0p55_LP.Integral(200-10, 200+10)
 p_ratio_0p55_LP = ROOT.TMarker(200, fit_ratio_0p55_LP.Eval(200), 29)
 p_ratio_0p55_LP.SetMarkerSize(1)
@@ -387,7 +336,7 @@ p_ratio_0p55_LP.Draw()
 gr_ratio_0p55_HP.Fit("mypolynomial")
 fit_ratio_0p55_HP = gr_ratio_0p55_HP.GetFunction("mypolynomial")
 fit_ratio_0p55_HP.SetLineColor(gr_ratio_0p55_HP.GetMarkerColor())
-print gr_ratio_0p55_HP.GetTitle(), "result at 200 GeV:", fit_ratio_0p55_HP.Eval(200)
+print(gr_ratio_0p55_HP.GetTitle(), "result at 200 GeV:", fit_ratio_0p55_HP.Eval(200))
 unc_fit_0p55_HP = fit_ratio_0p55_HP.IntegralError(200-10, 200+10)/fit_ratio_0p55_HP.Integral(200-10, 200+10)
 p_ratio_0p55_HP = ROOT.TMarker(200, fit_ratio_0p55_HP.Eval(200), 29)
 p_ratio_0p55_HP.SetMarkerSize(1)
@@ -398,7 +347,7 @@ p_ratio_0p55_HP.Draw()
 gr_ratio_0p35_LP.Fit("mypolynomial")
 fit_ratio_0p35_LP = gr_ratio_0p35_LP.GetFunction("mypolynomial")
 fit_ratio_0p35_LP.SetLineColor(gr_ratio_0p35_LP.GetMarkerColor())
-print gr_ratio_0p35_LP.GetTitle(), "result at 200 GeV:", fit_ratio_0p35_LP.Eval(200)
+print(gr_ratio_0p35_LP.GetTitle(), "result at 200 GeV:", fit_ratio_0p35_LP.Eval(200))
 unc_fit_0p35_LP = fit_ratio_0p35_LP.IntegralError(200-10, 200+10)/fit_ratio_0p35_LP.Integral(200-10, 200+10)
 p_ratio_0p35_LP = ROOT.TMarker(200, fit_ratio_0p35_LP.Eval(200), 29)
 p_ratio_0p35_LP.SetMarkerSize(1)
@@ -409,7 +358,7 @@ p_ratio_0p35_LP.Draw()
 gr_ratio_0p35_HP.Fit("mypolynomial")
 fit_ratio_0p35_HP = gr_ratio_0p35_HP.GetFunction("mypolynomial")
 fit_ratio_0p35_HP.SetLineColor(gr_ratio_0p35_HP.GetMarkerColor())
-print gr_ratio_0p35_HP.GetTitle(), "result at 200 GeV:", fit_ratio_0p35_HP.Eval(200)
+print(gr_ratio_0p35_HP.GetTitle(), "result at 200 GeV:", fit_ratio_0p35_HP.Eval(200))
 unc_fit_0p35_HP = fit_ratio_0p35_HP.IntegralError(200-10, 200+10)/fit_ratio_0p35_HP.Integral(200-10, 200+10)
 p_ratio_0p35_HP = ROOT.TMarker(200, fit_ratio_0p35_HP.Eval(200), 29)
 p_ratio_0p35_HP.SetMarkerSize(1)
@@ -494,7 +443,7 @@ for i in range(len(masses)):
     unc_err_0p55_HP.append(sqrt(unc_fit_0p55_HP**2 + (gr_ratio_0p55_HP.GetErrorY(i))**2))
     unc_err_0p35_LP.append(sqrt(unc_fit_0p35_LP**2 + (gr_ratio_0p35_LP.GetErrorY(i))**2))
     unc_err_0p35_HP.append(sqrt(unc_fit_0p35_HP**2 + (gr_ratio_0p35_HP.GetErrorY(i))**2))
-    # print "ERROR", gr_ratio_0p55_LP.GetErrorY(i), unc_err_0p55_LP[-1]
+    # print("ERROR", gr_ratio_0p55_LP.GetErrorY(i), unc_err_0p55_LP[-1])
 
 
 gr_unc_0p55_LP = ROOT.TGraphErrors(len(masses)+1, array('d', [200]+arr_effX_pythia_0p55_LP), array('d', unc_0p55_LP), array('d', arr_effErrX_pythia_0p35_LP), array('d', unc_err_0p55_LP))
@@ -542,10 +491,10 @@ addInfo.InsertText("{}: {:.1f}% #times ln(p_{{T}}/200 GeV)".format(gr_ratio_0p35
 addInfo.InsertText("{}: {:.1f}% #times ln(p_{{T}}/200 GeV)".format(gr_ratio_0p55_HP.GetTitle(), fit_unc_0p55_HP.GetParameter(0)*100))
 addInfo.InsertText("{}: {:.1f}% #times ln(p_{{T}}/200 GeV)".format(gr_ratio_0p55_LP.GetTitle(), 2*fit_unc_0p55_LP.GetParameter(0)*100))
 
-print "{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p35_HP.GetTitle(), fit_unc_0p35_HP.GetParameter(0)*100)
-print "{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p35_LP.GetTitle(), fit_unc_0p35_LP.GetParameter(0)*100)
-print "{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p55_HP.GetTitle(), fit_unc_0p55_HP.GetParameter(0)*100)
-print "{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p55_LP.GetTitle(), 2*fit_unc_0p55_LP.GetParameter(0)*100)
+print("{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p35_HP.GetTitle(), fit_unc_0p35_HP.GetParameter(0)*100))
+print("{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p35_LP.GetTitle(), fit_unc_0p35_LP.GetParameter(0)*100))
+print("{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p55_HP.GetTitle(), fit_unc_0p55_HP.GetParameter(0)*100))
+print("{}: {:.1f}% * ln(p_T/200 GeV)".format(gr_ratio_0p55_LP.GetTitle(), 2*fit_unc_0p55_LP.GetParameter(0)*100))
 
 addInfo.Draw()
 
